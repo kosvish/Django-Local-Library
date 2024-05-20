@@ -56,12 +56,23 @@ class Book(models.Model):
     language = models.ForeignKey('Language', null=True,
                                  help_text="Введите язык желаемой книги", on_delete=models.SET_NULL)
 
+
     def __str__(self):
         """
         Строка представляющая модель таблицы
         :return: Заголовок книги
         """
         return self.title
+
+    def display_genre(self):
+        """
+        Создает строку для Жанров. Это обязательно для отображение жанров в панеле Администраторов в Django
+        :return: Строка жанров
+        """
+        return ', '.join([genre.name for genre in
+                          self.genre.all()[:3]])
+
+    display_genre.short_description = "Genre"
 
     def get_absolute_url(self):
         """
