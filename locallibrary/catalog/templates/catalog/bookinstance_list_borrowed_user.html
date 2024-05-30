@@ -1,0 +1,27 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+<h1>Занятые книги</h1>
+
+{% if bookinstance_list %}
+<ul>
+
+    {% for books in bookinstance_list %}
+    <li class="{% if books.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'book-detail' books.book.pk %}">
+            {{ books.book.title }}
+        </a>
+        ({{ books.due_back }})
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+
+<p>
+    У вас нет занятых книг
+</p>
+{% endif %}
+
+{% endblock %}
