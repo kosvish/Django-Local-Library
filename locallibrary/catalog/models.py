@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 import uuid
+from django.contrib.auth.models import User
+from datetime import date
 
 
 class Genre(models.Model):
@@ -56,7 +58,6 @@ class Book(models.Model):
     language = models.ForeignKey('Language', null=True,
                                  help_text="Введите язык желаемой книги", on_delete=models.SET_NULL)
 
-
     def __str__(self):
         """
         Строка представляющая модель таблицы
@@ -66,7 +67,7 @@ class Book(models.Model):
 
     def display_genre(self):
         """
-        Создает строку для Жанров. Это обязательно для отображение жанров в панеле Администраторов в Django
+        Создает строку для Жанров. Это обязательно для отображения жанров в панеле Администраторов в Django
         :return: Строка жанров
         """
         return ', '.join([genre.name for genre in
@@ -98,15 +99,25 @@ class BookInstance(models.Model):
     )
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m',
                               help_text="Забронировать книгу")
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         ordering = ['due_back']
+        permissions = (
+            ('can_mark_returned', 'Set book as returned.'),
+        )
 
     def __str__(self):
         """
         :return: Строка представляющая модель объекта
         """
         return '%s (%s)' % (self.id, self.book.title)
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
 
 
 class Author(models.Model):
