@@ -68,6 +68,14 @@ class BookDetailView(generic.DetailView):
     model = Book
 
 
+class AuthorDetailView(generic.DetailView):
+    model = Author
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+
+
 class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
