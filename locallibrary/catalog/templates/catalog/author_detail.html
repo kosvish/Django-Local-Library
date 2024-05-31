@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<p><strong>Имя автора:</strong> <a href="">{{ author.first_name }}</a></p> <!-- author detail link not yet defined -->
+<p><strong>Фамилия автора:</strong> {{ author.last_name }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Дата рождения:</strong> {{ author.date_of_birth }}</p>
+{% if author.date_of_death %}
+<p><strong>Дата смерти:</strong> {{ author.date_of_death }}</p>
+{% else %}
+            <p><strong>Автор жив:</strong></p>
+{% endif %}
+
+{% endblock %}
