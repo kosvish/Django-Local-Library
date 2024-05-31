@@ -133,6 +133,7 @@ class Author(models.Model):
         """
         :return: Возращает url-адресс для доступа к определенному экземпляру автора
         """
+        return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
         """
