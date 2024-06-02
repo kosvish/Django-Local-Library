@@ -10,11 +10,14 @@ class RenewBookForm(forms.Form):
     def clean_renewal_date(self):
         data = self.cleaned_data["renewal_date"]
         # проверка того, что дата не в прошлом
-        if data < datetime.datetime.today():
+        if data < datetime.date.today():
             raise ValidationError(_("Неправильная дата, возрат в прошлом"))
 
-        if data > datetime.datetime.today() + datetime.timedelta(weeks=4):
+        if data > datetime.date.today() + datetime.timedelta(weeks=4):
             raise ValidationError(_("Неправильная дата, дата не может превышать 4 недели"))
+
+        if data == datetime.date.today():
+            raise ValidationError(_("Вы не можете вернуть книгу в тот же день что и взяли"))
 
         return data
 
