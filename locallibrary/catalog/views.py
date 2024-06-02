@@ -74,6 +74,7 @@ class AuthorDetailView(generic.DetailView):
 
 class AuthorListView(generic.ListView):
     model = Author
+    paginate_by = 10
 
 
 class AuthorCreate(CreateView):
